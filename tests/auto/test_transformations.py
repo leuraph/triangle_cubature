@@ -36,8 +36,8 @@ class TestTransformations(unittest.TestCase):
         ])
         jacobian = get_jacobian(physical_triangle=physical_coordinates)
         transformed_coordinates = transform_integration_points(
-            physical_triangle=physical_coordinates,
             reference_integration_points=reference_coordinates,
+            p1=physical_coordinates[0, :],
             jacobian=jacobian)
         self.assertTrue(
             np.allclose(reference_coordinates, transformed_coordinates))

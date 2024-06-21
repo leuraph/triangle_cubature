@@ -11,10 +11,9 @@ def transform_weights(reference_weights: np.ndarray,
 
 
 def transform_integration_points(
-        physical_triangle: CoordinatesType,
         reference_integration_points: CoordinatesType,
+        p1: np.ndarray,
         jacobian: np.ndarray) -> CoordinatesType:
-    p1 = physical_triangle[0, :]
 
     transformed_integration_points = p1 \
         + reference_integration_points.dot(jacobian.T)
@@ -36,8 +35,8 @@ def transform_weights_and_integration_points(
         reference_weights=reference_weights,
         jacobian=jacobian)
     transformed_integration_points = transform_integration_points(
-        physical_triangle=physical_triangle,
         reference_integration_points=reference_integration_points,
+        p1=physical_triangle[:, 0],
         jacobian=jacobian)
 
     return WeightsAndIntegrationPoints(
