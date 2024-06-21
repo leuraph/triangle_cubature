@@ -1,6 +1,5 @@
 import unittest
-from triangle_cubature.transformations \
-    import transform_weights, transform_integration_points, get_jacobian, \
+from triangle_cubature.transformations import get_jacobian, \
     transform_weights_and_integration_points
 import numpy as np
 from triangle_cubature.weights_and_integration_points \
