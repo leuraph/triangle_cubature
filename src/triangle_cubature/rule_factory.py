@@ -1,6 +1,7 @@
 from enum import Enum
 import numpy as np
-from triangle_cubature.weights_and_integration_points import WeightsAndIntegrationPoints
+from triangle_cubature.weights_and_integration_points \
+    import WeightsAndIntegrationPoints
 
 
 class CubatureRule(Enum):
