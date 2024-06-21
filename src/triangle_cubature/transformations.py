@@ -1,5 +1,6 @@
 import numpy as np
 from p1afempy.data_structures import CoordinatesType
+from triangle_cubature.weights_and_integration_points import WeightsAndIntegrationPoints
 
 
 def transform_weights(physical_triangle: CoordinatesType,
@@ -20,6 +21,14 @@ def transform_integration_points(
         + reference_integration_points.dot(jacobian.T)
 
     return np.array(transformed_integration_points)
+
+
+def transform_weights_and_integration_points(
+    weights_and_integration_points: WeightsAndIntegrationPoints,
+    physical_triangle: CoordinatesType
+) -> WeightsAndIntegrationPoints:
+    # TODO implement
+    return weights_and_integration_points
 
 
 def get_jacobian(physical_triangle: CoordinatesType) -> np.ndarray:
