@@ -1,5 +1,5 @@
 from p1afempy.data_structures import CoordinatesType
-from weights_and_coordinates import WeightsAndCoordinates
+from triangle_cubature.weights_and_coordinates import WeightsAndCoordinates
 
 
 def integrate_on_triangle(
