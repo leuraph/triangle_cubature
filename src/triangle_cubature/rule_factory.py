@@ -1,15 +1,15 @@
 from enum import Enum
 import numpy as np
-from triangle_cubature.weights_and_coordinates import WeightsAndCoordinates
+from triangle_cubature.weights_and_coordinates import WeightsAndIntegrationPoints
 
 
 class CubatureRule(Enum):
     MIDPOINT = 1
 
 
-def get_rule(rule: CubatureRule) -> WeightsAndCoordinates:
+def get_rule(rule: CubatureRule) -> WeightsAndIntegrationPoints:
     if rule == CubatureRule.MIDPOINT:
-        return WeightsAndCoordinates(
+        return WeightsAndIntegrationPoints(
             weights=np.array([1./2.]),
-            coordinates=np.array[[1./3., 1./3.]]
+            integration_points=np.array[[1./3., 1./3.]]
         )

@@ -4,6 +4,6 @@ from dataclasses import dataclass
 
 
 @dataclass
-class WeightsAndCoordinates:
+class WeightsAndIntegrationPoints:
     weights: np.ndarray
-    coordinates: CoordinatesType
+    integration_points: CoordinatesType

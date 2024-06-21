@@ -1,17 +1,17 @@
 from p1afempy.data_structures import CoordinatesType
-from triangle_cubature.weights_and_coordinates import WeightsAndCoordinates
+from triangle_cubature.weights_and_coordinates import WeightsAndIntegrationPoints
 
 
 def integrate_on_triangle(
         coordinates: CoordinatesType,
-        rule: WeightsAndCoordinates) -> float:
+        rule: WeightsAndIntegrationPoints) -> float:
     # TODO IMPLEMENT
     return 0.
 
 
 def integrate_on_mesh(
         coordinates: CoordinatesType,
-        rule: WeightsAndCoordinates) -> float:
+        rule: WeightsAndIntegrationPoints) -> float:
     sum = 0.
     for triangle in coordinates:
         sum += integrate_on_triangle(
