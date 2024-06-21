@@ -28,8 +28,20 @@ def transform_weights_and_integration_points(
     weights_and_integration_points: WeightsAndIntegrationPoints,
     physical_triangle: CoordinatesType
 ) -> WeightsAndIntegrationPoints:
-    # TODO implement
-    return weights_and_integration_points
+    reference_weights = weights_and_integration_points.weights
+    reference_integration_points = \
+        weights_and_integration_points.integration_points
+
+    transformed_weights = transform_weights(
+        physical_triangle=physical_triangle,
+        reference_weights=reference_weights)
+    transformed_integration_points = transform_integration_points(
+        physical_triangle=physical_triangle,
+        reference_integration_points=reference_integration_points)
+
+    return WeightsAndIntegrationPoints(
+        weights=transformed_weights,
+        integration_points=transformed_integration_points)
 
 
 def get_jacobian(physical_triangle: CoordinatesType) -> np.ndarray:
