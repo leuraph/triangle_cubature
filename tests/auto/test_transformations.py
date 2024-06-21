@@ -1,6 +1,6 @@
 import unittest
 from triangle_cubature.transformations \
-    import transform_weights, transform_coordinates
+    import transform_weights, transform_integration_points
 import numpy as np
 
 
@@ -30,7 +30,7 @@ class TestTransformations(unittest.TestCase):
             [1., 0.],
             [0., 1.]
         ])
-        transformed_coordinates = transform_coordinates(
+        transformed_coordinates = transform_integration_points(
             physical_triangle=physical_coordinates,
             reference_coordinates=reference_coordinates)
         self.assertTrue(

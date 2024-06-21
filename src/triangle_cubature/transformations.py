@@ -9,7 +9,7 @@ def transform_weights(
     return np.zeros_like(reference_weights)
 
 
-def transform_coordinates(
+def transform_integration_points(
         physical_triangle: CoordinatesType,
         reference_coordinates: CoordinatesType) -> CoordinatesType:
     # TODO implement
