@@ -32,7 +32,7 @@ class TestTransformations(unittest.TestCase):
         ])
         transformed_coordinates = transform_integration_points(
             physical_triangle=physical_coordinates,
-            reference_coordinates=reference_coordinates)
+            reference_integration_points=reference_coordinates)
         self.assertTrue(
             np.allclose(reference_coordinates, transformed_coordinates))
 
