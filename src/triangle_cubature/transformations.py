@@ -16,11 +16,8 @@ def transform_integration_points(
     p1 = physical_triangle[0, :]
     jacobian = get_jacobian(physical_triangle=physical_triangle)
 
-    transformed_integration_points = []
-    for reference_integration_point in reference_integration_points:
-        transformed_integration_point = p1 + jacobian.dot(
-            reference_integration_point)
-        transformed_integration_points.append(transformed_integration_point)
+    transformed_integration_points = p1 \
+        + reference_integration_points.dot(jacobian.T)
 
     return np.array(transformed_integration_points)
 
