@@ -1,7 +1,10 @@
 import unittest
 from triangle_cubature.transformations \
-    import transform_weights, transform_integration_points, get_jacobian
+    import transform_weights, transform_integration_points, get_jacobian, \
+    transform_weights_and_integration_points
 import numpy as np
+from triangle_cubature.weights_and_integration_points \
+    import WeightsAndIntegrationPoints
 
 
 class TestTransformations(unittest.TestCase):
@@ -35,6 +38,39 @@ class TestTransformations(unittest.TestCase):
             reference_integration_points=reference_coordinates)
         self.assertTrue(
             np.allclose(reference_coordinates, transformed_coordinates))
+
+    def transform_weights_and_integration_points(self):
+        # -------------------------------------------------------------
+        # Testing the trivial case, i.e. ref. triangle = phys. triangle
+        # -------------------------------------------------------------
+        reference_integration_points = np.array([
+            [0.0, 0.0],
+            [1.0, 0.0],
+            [0.0, 1.0],
+            [1./3., 1./3.]
+        ])
+        reference_weights = np.array([0.25, 0.25, 0.25, 0.25])
+
+        reference_rule = WeightsAndIntegrationPoints(
+            weights=reference_weights,
+            integration_points=reference_integration_points)
+
+        physical_triangle = np.array([
+            [0., 0.],
+            [1., 0.],
+            [0., 1.]
+        ])
+
+        transformed = \
+            transform_weights_and_integration_points(
+                weights_and_integration_points=reference_rule,
+                physical_triangle=physical_triangle)
+
+        self.assertTrue(np.allclose(reference_weights, transformed.weights))
+        self.assertTrue(np.allclose(reference_integration_points,
+                                    transformed.integration_points))
+
+        # TODO add non-trivial tests
 
     def test_jacobian(self):
         np.random.seed(42)
