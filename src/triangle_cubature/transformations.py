@@ -26,4 +26,4 @@ def get_jacobian(physical_triangle: CoordinatesType) -> np.ndarray:
     p1 = physical_triangle[0, :]
     p2 = physical_triangle[1, :]
     p3 = physical_triangle[2, :]
-    return np.vstack((p2 - p1, p3 - p1)).T
+    return np.column_stack((p2 - p1, p3 - p1))
