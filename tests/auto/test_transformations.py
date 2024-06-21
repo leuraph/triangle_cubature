@@ -1,6 +1,6 @@
 import unittest
 from triangle_cubature.transformations \
-    import transform_weights, transform_integration_points
+    import transform_weights, transform_integration_points, get_jacobian
 import numpy as np
 
 
@@ -36,7 +36,28 @@ class TestTransformations(unittest.TestCase):
         self.assertTrue(
             np.allclose(reference_coordinates, transformed_coordinates))
 
-    def _generate_random_triangle():
+    def test_jacobian(self):
+        np.random.seed(42)
+        for _ in range(100):
+            physical_triangle = TestTransformations.generate_random_triangle()
+            x_1 = physical_triangle[0, 0]
+            y_1 = physical_triangle[0, 1]
+            x_2 = physical_triangle[1, 0]
+            y_2 = physical_triangle[1, 1]
+            x_3 = physical_triangle[2, 0]
+            y_3 = physical_triangle[2, 1]
+            expected_jacobian = np.array([
+                [x_2 - x_1, x_3 - x_1],
+                [y_2 - y_1, y_3 - y_1]
+            ])
+            calculated_jacobian = get_jacobian(
+                physical_triangle=physical_triangle)
+            self.assertTrue(np.allclose(
+                expected_jacobian, calculated_jacobian
+            ))
+
+    @staticmethod
+    def generate_random_triangle():
         # Step 1: Get three random angles strictly between 0 and 2*pi
         angles = np.sort(np.random.uniform(0, 2*np.pi, 3))
 

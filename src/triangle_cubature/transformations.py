@@ -14,3 +14,8 @@ def transform_integration_points(
         reference_integration_points: CoordinatesType) -> CoordinatesType:
     # TODO implement
     return np.zeros_like(reference_integration_points)
+
+
+def get_jacobian(physical_triangle: CoordinatesType) -> np.ndarray:
+    # TODO implement
+    return np.zeros(shape=(2, 2))
