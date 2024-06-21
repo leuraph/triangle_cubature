@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "triangle_cubature"
+version = "0.0.1"
+dependencies = [
+    "numpy",
+    "p1afempy"
+]
+requires-python = ">=3.9.18"
+
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["dev_tools"]  # alternatively: `include = ["pkg*"]`
+namespaces = false
