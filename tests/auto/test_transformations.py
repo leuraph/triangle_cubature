@@ -15,9 +15,11 @@ class TestTransformations(unittest.TestCase):
             [1., 0.],
             [0., 1.]
         ])
+        jacobian = get_jacobian(physical_triangle=physical_coordinates)
         transformed_weights = transform_weights(
             physical_triangle=physical_coordinates,
-            reference_weights=reference_weights)
+            reference_weights=reference_weights,
+            jacobian=jacobian)
         self.assertTrue(
             np.allclose(reference_weights, transformed_weights))
 
@@ -33,9 +35,11 @@ class TestTransformations(unittest.TestCase):
             [1., 0.],
             [0., 1.]
         ])
+        jacobian = get_jacobian(physical_triangle=physical_coordinates)
         transformed_coordinates = transform_integration_points(
             physical_triangle=physical_coordinates,
-            reference_integration_points=reference_coordinates)
+            reference_integration_points=reference_coordinates,
+            jacobian=jacobian)
         self.assertTrue(
             np.allclose(reference_coordinates, transformed_coordinates))
 
