@@ -6,11 +6,11 @@ def transform_weights(
         physical_triangle: CoordinatesType,
         reference_weights: np.ndarray) -> np.ndarray:
     # TODO implement
-    pass
+    return np.zeros_like(reference_weights)
 
 
 def transform_coordinates(
         physical_triangle: CoordinatesType,
         reference_coordinates: CoordinatesType) -> CoordinatesType:
     # TODO implement
-    pass
+    return np.zeros_like(reference_coordinates)
