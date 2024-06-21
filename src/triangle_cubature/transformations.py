@@ -4,8 +4,7 @@ from triangle_cubature.weights_and_integration_points \
     import WeightsAndIntegrationPoints
 
 
-def transform_weights(physical_triangle: CoordinatesType,
-                      reference_weights: np.ndarray,
+def transform_weights(reference_weights: np.ndarray,
                       jacobian: np.ndarray) -> np.ndarray:
     jacobian_determinant = np.linalg.det(jacobian)
     return jacobian_determinant * reference_weights
@@ -34,7 +33,6 @@ def transform_weights_and_integration_points(
     jacobian = get_jacobian(physical_triangle=physical_triangle)
 
     transformed_weights = transform_weights(
-        physical_triangle=physical_triangle,
         reference_weights=reference_weights,
         jacobian=jacobian)
     transformed_integration_points = transform_integration_points(

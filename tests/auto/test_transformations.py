@@ -17,7 +17,6 @@ class TestTransformations(unittest.TestCase):
         ])
         jacobian = get_jacobian(physical_triangle=physical_coordinates)
         transformed_weights = transform_weights(
-            physical_triangle=physical_coordinates,
             reference_weights=reference_weights,
             jacobian=jacobian)
         self.assertTrue(
