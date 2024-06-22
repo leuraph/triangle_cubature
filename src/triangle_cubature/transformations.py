@@ -19,7 +19,7 @@ def transform_weights_and_integration_points(
         jacobian=jacobian)
     transformed_integration_points = transform_integration_points(
         reference_integration_points=reference_integration_points,
-        p1=physical_triangle[:, 0],
+        p1=physical_triangle[0, :],
         jacobian=jacobian)
 
     return WeightsAndIntegrationPoints(
