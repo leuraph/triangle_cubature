@@ -42,7 +42,7 @@ class TestTransformations(unittest.TestCase):
         self.assertTrue(
             np.allclose(reference_coordinates, transformed_coordinates))
 
-    def transform_weights_and_integration_points(self):
+    def test_transform_weights_and_integration_points(self):
         # -------------------------------------------------------------
         # Testing the trivial case, i.e. ref. triangle = phys. triangle
         # -------------------------------------------------------------
