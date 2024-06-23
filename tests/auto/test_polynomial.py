@@ -1,6 +1,7 @@
 import unittest
 from dev_tools.polynomials import Monomial, Polynomial
 from dev_tools.polynomials import integrate_on_triangle
+from dev_tools.polynomials import get_random_polynomial
 from dev_tools.utils import generate_random_triangle
 import numpy as np
 
@@ -97,7 +98,7 @@ class TestPolynomial(unittest.TestCase):
         identity = Monomial(x_exponent=0, y_exponent=0, coefficient=1.)
         p_id = Polynomial(monomials=[identity])
 
-        np.random.seed(42)
+        np.random.seed(41)
         random_triangle = generate_random_triangle()
         area = 0.5*np.linalg.det(np.column_stack([random_triangle, np.ones(3)]))
 
@@ -106,8 +107,21 @@ class TestPolynomial(unittest.TestCase):
 
         self.assertAlmostEqual(area, calculated_area)
 
-        # TODO sanity-check: integrating linear
+        # sanity-check: integrating linear
         # --------------------------------
+        random_linear_polynomial = get_random_polynomial(degree=1)
+        random_triangle = generate_random_triangle()
+
+        area = 0.5*np.linalg.det(
+            np.column_stack([random_triangle, np.ones(3)]))
+        midpoint = (np.sum(random_triangle, axis=0) / 3.).reshape(1, 2)
+        value_at_midpoint = random_linear_polynomial.eval_at(
+            coordinates=midpoint)[0]
+
+        expected_result = area * value_at_midpoint
+        calculated_result = integrate_on_triangle(
+            polynomial=random_linear_polynomial, vertices=random_triangle)
+        self.assertAlmostEqual(expected_result, calculated_result)
 
 if __name__ == '__main__':
     unittest.main()
