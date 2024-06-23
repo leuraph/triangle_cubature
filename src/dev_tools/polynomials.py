@@ -1,5 +1,6 @@
 import numpy as np
 from p1afempy.data_structures import CoordinatesType
+import sympy
 
 
 class Monomial():
@@ -54,3 +55,64 @@ def get_random_polynomial(degree: int, max_coeff: float = 1.) -> Polynomial:
                          y_exponent=y_exponent,
                          coefficient=random_coeff))
     return Polynomial(monomials=monomials)
+
+
+def integrate_on_triangle(
+        polynomial: Polynomial,
+        vertices: np.ndarray) -> float:
+    """
+    integrates the polynomial on the specified triangle symbolically
+
+    polynomial: Polynomial
+        the polynomial to be integrated
+    vertices: np.ndarray
+        the vertices of the triangle in counter-clockwise order
+    """
+    x, y = sympy.symbols('x y')  # physical coordinates
+    m, n = sympy.symbols('m n', integer=True)  # x-, and y-exponents
+    c = sympy.symbols('c')  # coefficient of monomial
+    monomial_template = c * x**m * y**n
+
+    # creating the symbolic representation of the polynomial
+    # to be integrated (in physical coordinates)
+    p = 0.
+    for monomial in polynomial.monomials:
+        p = p + monomial_template.subs([
+            (m, monomial.x_exponent),
+            (n, monomial.y_exponent),
+            (c, monomial.coefficient)])
+
+    r1 = vertices[0, :]
+    r2 = vertices[1, :]
+    r3 = vertices[2, :]
+
+    r_1x, r_1y = sympy.symbols('r_1x r_1y')
+    r_2x, r_2y = sympy.symbols('r_2x r_2y')
+    r_3x, r_3y = sympy.symbols('r_3x r_3y')
+    x_hat, y_hat = sympy.symbols('x_hat y_hat')
+
+    Phi = sympy.Matrix([
+        r_1x + x_hat*(r_2x - r_1x) + y_hat*(r_3x - r_1x),
+        r_1y + x_hat*(r_2y - r_1y) + y_hat*(r_3y - r_1y),
+    ])
+    jacobian = Phi.jacobian(sympy.Matrix([x_hat, y_hat]))
+    det_DPhi = sympy.det(jacobian)
+
+    integrand = p.subs([
+        (x, Phi[0]),
+        (y, Phi[1])
+    ])
+
+    result = sympy.integrate(
+        integrand, (y_hat, 1-x_hat, 1), (x_hat, 0, 1)) * det_DPhi
+
+    numerical_result = result.subs([
+        (r_1x, r1[0]),
+        (r_1y, r1[1]),
+        (r_2x, r2[0]),
+        (r_2y, r2[1]),
+        (r_3x, r3[0]),
+        (r_3y, r3[1])
+    ]).evalf()
+
+    return float(numerical_result)
