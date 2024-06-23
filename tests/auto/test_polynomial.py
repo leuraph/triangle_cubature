@@ -1,5 +1,7 @@
 import unittest
-from dev_tools.polynomials import Monomial
+from dev_tools.polynomials import Monomial, Polynomial
+from dev_tools.polynomials import integrate_on_triangle
+from dev_tools.utils import generate_random_triangle
 import numpy as np
 
 
@@ -88,6 +90,24 @@ class TestPolynomial(unittest.TestCase):
     def test_polynomials(self):
         pass
 
+    def test_integrate_on_triangle(self) -> None:
+        # sanity-check: integrating identity must yield area of triangle
+        # --------------------------------------------------------------
+
+        identity = Monomial(x_exponent=0, y_exponent=0, coefficient=1.)
+        p_id = Polynomial(monomials=[identity])
+
+        np.random.seed(42)
+        random_triangle = generate_random_triangle()
+        area = 0.5*np.linalg.det(np.column_stack([random_triangle, np.ones(3)]))
+
+        calculated_area = integrate_on_triangle(
+            polynomial=p_id, vertices=random_triangle)
+
+        self.assertAlmostEqual(area, calculated_area)
+
+        # TODO sanity-check: integrating linear
+        # --------------------------------
 
 if __name__ == '__main__':
     unittest.main()
