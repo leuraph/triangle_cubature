@@ -62,6 +62,29 @@ class TestPolynomial(unittest.TestCase):
         self.assertTrue(np.allclose(
             expected_result, monomial.eval_at(coordinates)))
 
+        # Test-04: randomized tests
+        # -------------------------
+        np.random.seed(42)
+        n_random_tests = 100
+        for _ in range(n_random_tests):
+            n_coordinates = 100
+            coordinates = np.random.rand(n_coordinates, 2)
+            coefficient = np.random.rand()
+            x_exponent = np.random.randint(10)
+            y_exponent = np.random.randint(10)
+            monomial = Monomial(
+                x_exponent=x_exponent,
+                y_exponent=y_exponent,
+                coefficient=coefficient)
+
+            values = monomial.eval_at(coordinates)
+            for value, coordinate in zip(values, coordinates):
+                expected_value = (
+                    coefficient *
+                    coordinate[0]**x_exponent *
+                    coordinate[1]**y_exponent)
+                self.assertAlmostEqual(expected_value, value)
+
     def test_polynomials(self):
         pass
 
