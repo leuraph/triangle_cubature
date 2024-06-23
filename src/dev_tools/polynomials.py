@@ -33,6 +33,7 @@ class Polynomial():
         self.monomials = monomials
 
     def eval_at(self, coordinates: CoordinatesType) -> np.ndarray:
+        # TODO get rid of this for loop
         result = np.zeros(coordinates.shape[0])
         for monomial in self.monomials:
             result += monomial.eval_at(coordinates=coordinates)
