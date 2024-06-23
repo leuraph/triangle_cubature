@@ -99,29 +99,31 @@ class TestPolynomial(unittest.TestCase):
         p_id = Polynomial(monomials=[identity])
 
         np.random.seed(41)
-        random_triangle = generate_random_triangle()
-        area = 0.5*np.linalg.det(np.column_stack([random_triangle, np.ones(3)]))
+        n_random_tests = 5
+        for _ in range(n_random_tests):
+            random_triangle = generate_random_triangle()
+            area = 0.5*np.linalg.det(np.column_stack([random_triangle, np.ones(3)]))
 
-        calculated_area = integrate_on_triangle(
-            polynomial=p_id, vertices=random_triangle)
+            calculated_area = integrate_on_triangle(
+                polynomial=p_id, vertices=random_triangle)
 
-        self.assertAlmostEqual(area, calculated_area)
+            self.assertAlmostEqual(area, calculated_area)
 
-        # sanity-check: integrating linear
-        # --------------------------------
-        random_linear_polynomial = get_random_polynomial(degree=1)
-        random_triangle = generate_random_triangle()
+            # sanity-check: integrating linear
+            # --------------------------------
+            random_linear_polynomial = get_random_polynomial(degree=1)
+            random_triangle = generate_random_triangle()
 
-        area = 0.5*np.linalg.det(
-            np.column_stack([random_triangle, np.ones(3)]))
-        midpoint = (np.sum(random_triangle, axis=0) / 3.).reshape(1, 2)
-        value_at_midpoint = random_linear_polynomial.eval_at(
-            coordinates=midpoint)[0]
+            area = 0.5*np.linalg.det(
+                np.column_stack([random_triangle, np.ones(3)]))
+            midpoint = (np.sum(random_triangle, axis=0) / 3.).reshape(1, 2)
+            value_at_midpoint = random_linear_polynomial.eval_at(
+                coordinates=midpoint)[0]
 
-        expected_result = area * value_at_midpoint
-        calculated_result = integrate_on_triangle(
-            polynomial=random_linear_polynomial, vertices=random_triangle)
-        self.assertAlmostEqual(expected_result, calculated_result)
+            expected_result = area * value_at_midpoint
+            calculated_result = integrate_on_triangle(
+                polynomial=random_linear_polynomial, vertices=random_triangle)
+            self.assertAlmostEqual(expected_result, calculated_result)
 
 if __name__ == '__main__':
     unittest.main()
