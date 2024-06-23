@@ -104,7 +104,7 @@ def integrate_on_triangle(
     ])
 
     result = sympy.integrate(
-        integrand, (y_hat, 1-x_hat, 1), (x_hat, 0, 1)) * det_DPhi
+        integrand, (y_hat, 0, 1-x_hat), (x_hat, 0, 1)) * det_DPhi
 
     numerical_result = result.subs([
         (r_1x, r1[0]),
