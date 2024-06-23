@@ -22,8 +22,9 @@ def integrate_on_mesh(
         elements: ElementsType,
         rule: WeightsAndIntegrationPoints) -> float:
     sum = 0.
-    for triangle in coordinates:
+    for triangle in elements:
         sum += integrate_on_triangle(
-            coordinates=triangle,
+            f=f,
+            coordinates=coordinates[triangle, :],
             rule=rule)
     return sum
