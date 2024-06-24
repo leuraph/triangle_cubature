@@ -2,3 +2,4 @@ build
 sympy
 jupyter
 tqdm
+twine
