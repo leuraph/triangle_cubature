@@ -4,12 +4,12 @@ from triangle_cubature.weights_and_integration_points \
     import WeightsAndIntegrationPoints
 
 
-class CubatureRule(Enum):
+class CubatureRuleEnum(Enum):
     MIDPOINT = 1
     LAUFFER = 2
 
 
-def get_rule(rule: CubatureRule) -> WeightsAndIntegrationPoints:
+def get_rule(rule: CubatureRuleEnum) -> WeightsAndIntegrationPoints:
     """
     given a cubature rule, returns the corresponding
     weight(s) and integration point(s)
@@ -25,12 +25,12 @@ def get_rule(rule: CubatureRule) -> WeightsAndIntegrationPoints:
       SIAM Review 15, no. 1 (January 1973): 234-35.
       https://doi.org/10.1137/1015023. p. 306-315
     """
-    if rule == CubatureRule.MIDPOINT:
+    if rule == CubatureRuleEnum.MIDPOINT:
         return WeightsAndIntegrationPoints(
             weights=np.array([1./2.]),
             integration_points=np.array([1./3., 1./3.]).reshape(1, 2)
         )
-    if rule == CubatureRule.LAUFFER:
+    if rule == CubatureRuleEnum.LAUFFER:
         integration_points = np.array([
             [0., 0.],
             [1., 0.],

@@ -15,7 +15,7 @@ class TestCubatureRules(unittest.TestCase):
         # setup
         # -----
         midpoint_rule = triangle_cubature.rule_factory.get_rule(
-            rule=triangle_cubature.rule_factory.CubatureRule.MIDPOINT)
+            rule=triangle_cubature.rule_factory.CubatureRuleEnum.MIDPOINT)
         np.random.seed(42)
 
         # -----------------------------------------------------
@@ -82,7 +82,7 @@ class TestCubatureRules(unittest.TestCase):
         # setup
         # -----
         lauffer_rule = triangle_cubature.rule_factory.get_rule(
-            rule=triangle_cubature.rule_factory.CubatureRule.LAUFFER)
+            rule=triangle_cubature.rule_factory.CubatureRuleEnum.LAUFFER)
         np.random.seed(42)
 
         # -----------------------------------------------------
