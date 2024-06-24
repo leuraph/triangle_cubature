@@ -19,7 +19,7 @@ class TestCubatureRules(unittest.TestCase):
         # -----
         self.rules_to_test: list[CubatureRuleEnum] = [
             triangle_cubature.rule_factory.CubatureRuleEnum.MIDPOINT,
-            triangle_cubature.rule_factory.CubatureRuleEnum.LAUFFER,
+            triangle_cubature.rule_factory.CubatureRuleEnum.LAUFFER_LINEAR,
             triangle_cubature.rule_factory.CubatureRuleEnum.SMPLX1
         ]
 

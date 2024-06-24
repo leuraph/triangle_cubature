@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 class CubatureRuleEnum(Enum):
     MIDPOINT = 1
-    LAUFFER = 2
+    LAUFFER_LINEAR = 2
     SMPLX1 = 3
 
 
@@ -48,7 +48,7 @@ def get_rule(rule: CubatureRuleEnum) -> CubatureRule:
             degree_of_exactness=degree_of_exactness,
             name=name)
 
-    if rule == CubatureRuleEnum.LAUFFER:
+    if rule == CubatureRuleEnum.LAUFFER_LINEAR:
         integration_points = np.array([
             [0., 0.],
             [1., 0.],
@@ -62,7 +62,7 @@ def get_rule(rule: CubatureRuleEnum) -> CubatureRule:
         weights_and_integration_points = WeightsAndIntegrationPoints(
             weights=weights,
             integration_points=integration_points)
-        name = 'lauffer'
+        name = 'lauffer-linear'
         degree_of_exactness = 1
 
         return CubatureRule(
