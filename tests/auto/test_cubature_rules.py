@@ -51,21 +51,23 @@ class TestCubatureRules(unittest.TestCase):
         np.random.seed(42)
 
         for cubature_rule in [get_rule(rule) for rule in self.rules_to_test]:
-
+            waip = cubature_rule.weights_and_integration_points
+            name = cubature_rule.name
+            degree_of_exactness = cubature_rule.degree_of_exactness
             # test on single triangle
             print(
-                f'unit testing {cubature_rule.name}-cubature'
+                f'unit testing {name}-cubature'
                 ' on single triangles...')
             n_tests = 5
             for _ in tqdm(range(n_tests)):
                 random_triangle = utils.generate_random_triangle()
                 random_polynomial = polynomials.get_random_polynomial(
-                    degree=cubature_rule.degree_of_exactness)
+                    degree=degree_of_exactness)
                 calculated_result = \
                     triangle_cubature.integrate.integrate_on_triangle(
                         f=random_polynomial.eval_at,
                         triangle=random_triangle,
-                        weights_and_integration_points=cubature_rule.weights_and_integration_points)
+                        weights_and_integration_points=waip)
                 expected_result = polynomials.integrate_on_triangle(
                     polynomial=random_polynomial,
                     vertices=random_triangle)
@@ -73,12 +75,12 @@ class TestCubatureRules(unittest.TestCase):
 
             # test on mesh
             print(
-                f'unit testing {cubature_rule.name}-cubature'
+                f'unit testing {name}-cubature'
                 ' on refined mesh...')
 
             random_triangle = utils.generate_random_triangle()
             random_polynomial = polynomials.get_random_polynomial(
-                degree=cubature_rule.degree_of_exactness)
+                degree=degree_of_exactness)
             expected_result = polynomials.integrate_on_mesh(
                 polynomial=random_polynomial,
                 elements=elements,
@@ -88,7 +90,7 @@ class TestCubatureRules(unittest.TestCase):
                 f=random_polynomial.eval_at,
                 coordinates=coordinates,
                 elements=elements,
-                weights_and_integration_points=cubature_rule.weights_and_integration_points)
+                weights_and_integration_points=waip)
             self.assertAlmostEqual(expected_result, calculated_result)
 
     def tearDown(self):
