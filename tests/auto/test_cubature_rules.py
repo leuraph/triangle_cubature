@@ -68,7 +68,8 @@ class TestCubatureRules(unittest.TestCase):
         expected_result = polynomials.integrate_on_mesh(
             polynomial=random_linear_polynomial,
             elements=elements,
-            vertices=coordinates)
+            vertices=coordinates,
+            display_progress=True)
         calculated_result = triangle_cubature.integrate.integrate_on_mesh(
             f=random_linear_polynomial.eval_at,
             coordinates=coordinates,
@@ -135,7 +136,8 @@ class TestCubatureRules(unittest.TestCase):
         expected_result = polynomials.integrate_on_mesh(
             polynomial=random_linear_polynomial,
             elements=elements,
-            vertices=coordinates)
+            vertices=coordinates,
+            display_progress=True)
         calculated_result = triangle_cubature.integrate.integrate_on_mesh(
             f=random_linear_polynomial.eval_at,
             coordinates=coordinates,
