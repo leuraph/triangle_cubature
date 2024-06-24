@@ -6,6 +6,7 @@ from dev_tools import polynomials
 from p1afempy.io_helpers import read_mesh, read_boundary_condition
 from p1afempy.refinement import refineNVB
 from pathlib import Path
+from tqdm import tqdm
 
 
 class TestCubatureRules(unittest.TestCase):
@@ -21,8 +22,9 @@ class TestCubatureRules(unittest.TestCase):
         # midpoint must have exactness order of degree 1, i.e.
         # polynomials must be integrated exactly up to degree 1
         # -----------------------------------------------------
+        print('unit testing midpoint-cubature on single triangles...')
         n_tests = 5
-        for _ in range(n_tests):
+        for _ in tqdm(range(n_tests)):
             random_triangle = utils.generate_random_triangle()
             random_linear_polynomial = polynomials.get_random_polynomial(
                 degree=1)
@@ -37,6 +39,7 @@ class TestCubatureRules(unittest.TestCase):
             self.assertAlmostEqual(calculated_result, expected_result)
 
         # test on mesh
+        print('unit testing midpoint-cubature on refined mesh...')
         base_path = Path('tests/data/simple_square_mesh/')
         path_to_coordinates = base_path / Path('coordinates.dat')
         path_to_elements = base_path / Path('elements.dat')
@@ -85,8 +88,10 @@ class TestCubatureRules(unittest.TestCase):
         # LAUFFER must have exactness order of degree 1, i.e.
         # polynomials must be integrated exactly up to degree 1
         # -----------------------------------------------------
+        # test on single triangles
+        print('unit testing lauffer-cubature on single triangles...')
         n_tests = 5
-        for _ in range(n_tests):
+        for _ in tqdm(range(n_tests)):
             random_triangle = utils.generate_random_triangle()
             random_linear_polynomial = polynomials.get_random_polynomial(
                 degree=1)
@@ -101,6 +106,7 @@ class TestCubatureRules(unittest.TestCase):
             self.assertAlmostEqual(calculated_result, expected_result)
 
         # test on mesh
+        print('unit testing lauffer-cubature on refined mesh...')
         base_path = Path('tests/data/simple_square_mesh/')
         path_to_coordinates = base_path / Path('coordinates.dat')
         path_to_elements = base_path / Path('elements.dat')
@@ -123,7 +129,6 @@ class TestCubatureRules(unittest.TestCase):
                 boundary_conditions=boundaries
             )
 
-        np.random.seed(42)
         random_triangle = utils.generate_random_triangle()
         random_linear_polynomial = polynomials.get_random_polynomial(
             degree=1)
