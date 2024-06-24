@@ -7,8 +7,9 @@ from p1afempy.io_helpers import read_mesh, read_boundary_condition
 from p1afempy.refinement import refineNVB
 from pathlib import Path
 from tqdm import tqdm
-from triangle_cubature.rule_factory import CubatureRule
+from triangle_cubature.rule_factory import CubatureRule, CubatureRuleEnum
 from triangle_cubature.rule_factory import get_rule
+import warnings
 
 
 class TestCubatureRules(unittest.TestCase):
@@ -16,7 +17,7 @@ class TestCubatureRules(unittest.TestCase):
         # -----
         # setup
         # -----
-        rules_to_test: list[CubatureRule] = [
+        self.rules_to_test: list[CubatureRule] = [
             triangle_cubature.rule_factory.CubatureRuleEnum.MIDPOINT,
             triangle_cubature.rule_factory.CubatureRuleEnum.LAUFFER
         ]
@@ -49,7 +50,7 @@ class TestCubatureRules(unittest.TestCase):
         # -----
         np.random.seed(42)
 
-        for cubature_rule in [get_rule(rule) for rule in rules_to_test]:
+        for cubature_rule in [get_rule(rule) for rule in self.rules_to_test]:
 
             # test on single triangle
             print(
@@ -89,6 +90,17 @@ class TestCubatureRules(unittest.TestCase):
                 elements=elements,
                 weights_and_integration_points=cubature_rule.weights_and_integration_points)
             self.assertAlmostEqual(expected_result, calculated_result)
+
+    def tearDown(self):
+        # At the end of the test, check for uncovered cubature rules
+        all_cubature_rules = set(item for item in CubatureRuleEnum)
+        covered_cubature_rules = set(self.rules_to_test)
+        uncovered_rules = all_cubature_rules - covered_cubature_rules
+        if uncovered_rules:
+            warnings.warn(
+                "There are cubature rules not covered by this unit test, i.e."
+                f"Uncovered cubature rules: {uncovered_rules}."
+                "You should add them to `test_cubature_rules.py`")
 
 
 if __name__ == '__main__':
