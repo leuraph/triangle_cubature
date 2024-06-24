@@ -25,6 +25,6 @@ def integrate_on_mesh(
     for triangle in elements:
         sum += integrate_on_triangle(
             f=f,
-            coordinates=coordinates[triangle, :],
+            triangle=coordinates[triangle, :],
             rule=rule)
     return sum
