@@ -36,6 +36,8 @@ def get_rule(rule: CubatureRuleEnum) -> WeightsAndIntegrationPoints:
     if rule == CubatureRuleEnum.MIDPOINT:
         weights = np.array([1./2.])
         integration_points = np.array([1./3., 1./3.]).reshape(1, 2)
+        name = 'midpoint'
+        degree_of_exactness = 1
         return WeightsAndIntegrationPoints(
             weights=weights,
             integration_points=integration_points)
@@ -50,6 +52,8 @@ def get_rule(rule: CubatureRuleEnum) -> WeightsAndIntegrationPoints:
             1/3 * 0.5,
             1/3 * 0.5
         ])
+        name = 'lauffer'
+        degree_of_exactness = 1
         return WeightsAndIntegrationPoints(
             integration_points=integration_points,
             weights=weights)
