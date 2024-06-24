@@ -1,6 +1,7 @@
 import numpy as np
 from p1afempy.data_structures import CoordinatesType, ElementsType
 import sympy
+from tqdm import tqdm
 
 
 class Monomial():
@@ -121,9 +122,10 @@ def integrate_on_triangle(
 def integrate_on_mesh(
         polynomial: Polynomial,
         elements: ElementsType,
-        vertices: CoordinatesType) -> float:
+        vertices: CoordinatesType,
+        display_progress: bool = False) -> float:
     sum = 0.
-    for element in elements:
+    for element in tqdm(elements, disable=not display_progress):
         sum += integrate_on_triangle(
             polynomial=polynomial,
             vertices=vertices[element, :])
