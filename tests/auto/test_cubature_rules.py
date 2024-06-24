@@ -7,7 +7,7 @@ from p1afempy.io_helpers import read_mesh, read_boundary_condition
 from p1afempy.refinement import refineNVB
 from pathlib import Path
 from tqdm import tqdm
-from triangle_cubature.rule_factory import CubatureRule, CubatureRuleEnum
+from triangle_cubature.rule_factory import CubatureRuleEnum
 from triangle_cubature.rule_factory import get_rule
 import warnings
 
@@ -19,7 +19,8 @@ class TestCubatureRules(unittest.TestCase):
         # -----
         self.rules_to_test: list[CubatureRuleEnum] = [
             triangle_cubature.rule_factory.CubatureRuleEnum.MIDPOINT,
-            triangle_cubature.rule_factory.CubatureRuleEnum.LAUFFER
+            triangle_cubature.rule_factory.CubatureRuleEnum.LAUFFER,
+            triangle_cubature.rule_factory.CubatureRuleEnum.SMPLX1
         ]
 
         # reading and refining a mesh (same for all tests)

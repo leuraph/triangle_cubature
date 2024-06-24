@@ -8,6 +8,7 @@ from dataclasses import dataclass
 class CubatureRuleEnum(Enum):
     MIDPOINT = 1
     LAUFFER = 2
+    SMPLX1 = 3
 
 
 @dataclass
@@ -63,6 +64,30 @@ def get_rule(rule: CubatureRuleEnum) -> CubatureRule:
             integration_points=integration_points)
         name = 'lauffer'
         degree_of_exactness = 1
+
+        return CubatureRule(
+            weights_and_integration_points=weights_and_integration_points,
+            degree_of_exactness=degree_of_exactness,
+            name=name)
+
+    if rule == CubatureRuleEnum.SMPLX1:
+        r = (1.)/(6.)
+        s = 2./3.
+        integration_points = np.array([
+            [r, r],
+            [r, s],
+            [s, r]
+        ])
+        weights = np.array([
+            1/3 * 0.5,
+            1/3 * 0.5,
+            1/3 * 0.5
+        ])
+        weights_and_integration_points = WeightsAndIntegrationPoints(
+            weights=weights,
+            integration_points=integration_points)
+        name = 'SMPLX1'
+        degree_of_exactness = 2
 
         return CubatureRule(
             weights_and_integration_points=weights_and_integration_points,
