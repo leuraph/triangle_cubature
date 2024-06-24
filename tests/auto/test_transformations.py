@@ -3,7 +3,7 @@ from triangle_cubature.transformations \
     import transform_weights, transform_integration_points, get_jacobian, \
     transform_weights_and_integration_points
 import numpy as np
-from triangle_cubature.weights_and_integration_points \
+from triangle_cubature.cubature_rule \
     import WeightsAndIntegrationPoints
 from dev_tools.utils import generate_random_triangle
 

@@ -1,6 +1,6 @@
 from enum import Enum
 import numpy as np
-from triangle_cubature.weights_and_integration_points \
+from triangle_cubature.cubature_rule \
     import WeightsAndIntegrationPoints
 from dataclasses import dataclass
 

@@ -1,6 +1,6 @@
 import numpy as np
 from p1afempy.data_structures import CoordinatesType
-from triangle_cubature.weights_and_integration_points \
+from triangle_cubature.cubature_rule \
     import WeightsAndIntegrationPoints
 
 
