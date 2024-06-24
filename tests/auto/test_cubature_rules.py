@@ -100,7 +100,43 @@ class TestCubatureRules(unittest.TestCase):
                 vertices=random_triangle)
             self.assertAlmostEqual(calculated_result, expected_result)
 
-        # TODO test on mesh
+        # test on mesh
+        base_path = Path('tests/data/simple_square_mesh/')
+        path_to_coordinates = base_path / Path('coordinates.dat')
+        path_to_elements = base_path / Path('elements.dat')
+        path_to_boundary = base_path / Path('boundary.dat')
+
+        coordinates, elements = read_mesh(
+            path_to_coordinates=path_to_coordinates,
+            path_to_elements=path_to_elements)
+        # there's only one boundary
+        boundaries = [read_boundary_condition(
+            path_to_boundary=path_to_boundary)]
+
+        n_refinements = 2
+        for _ in range(n_refinements):
+            marked_elements = np.arange(elements.shape[0])
+            coordinates, elements, boundaries, _ = refineNVB(
+                coordinates=coordinates,
+                elements=elements,
+                marked_elements=marked_elements,
+                boundary_conditions=boundaries
+            )
+
+        np.random.seed(42)
+        random_triangle = utils.generate_random_triangle()
+        random_linear_polynomial = polynomials.get_random_polynomial(
+            degree=1)
+        expected_result = polynomials.integrate_on_mesh(
+            polynomial=random_linear_polynomial,
+            elements=elements,
+            vertices=coordinates)
+        calculated_result = triangle_cubature.integrate.integrate_on_mesh(
+            f=random_linear_polynomial.eval_at,
+            coordinates=coordinates,
+            elements=elements,
+            rule=lauffer_rule)
+        self.assertAlmostEqual(expected_result, calculated_result)
 
 
 if __name__ == '__main__':
