@@ -1,5 +1,5 @@
 import numpy as np
-from p1afempy.data_structures import CoordinatesType
+from p1afempy.data_structures import CoordinatesType, ElementsType
 import sympy
 
 
@@ -116,3 +116,15 @@ def integrate_on_triangle(
     ]).evalf()
 
     return float(numerical_result)
+
+
+def integrate_on_mesh(
+        polynomial: Polynomial,
+        elements: ElementsType,
+        vertices: CoordinatesType) -> float:
+    sum = 0.
+    for element in elements:
+        sum += integrate_on_triangle(
+            polynomial=polynomial,
+            vertices=vertices[element, :])
+    return sum
