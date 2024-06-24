@@ -7,7 +7,7 @@ from p1afempy.io_helpers import read_mesh, read_boundary_condition
 from p1afempy.refinement import refineNVB
 from pathlib import Path
 from tqdm import tqdm
-from triangle_cubature.rule_factory import CubatureRuleEnum
+from triangle_cubature.cubature_rule import CubatureRuleEnum
 from triangle_cubature.rule_factory import get_rule
 import warnings
 

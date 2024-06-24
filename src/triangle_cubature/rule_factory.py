@@ -1,21 +1,6 @@
-from enum import Enum
 import numpy as np
 from triangle_cubature.cubature_rule \
-    import WeightsAndIntegrationPoints
-from dataclasses import dataclass
-
-
-class CubatureRuleEnum(Enum):
-    MIDPOINT = 1
-    LAUFFER_LINEAR = 2
-    SMPLX1 = 3
-
-
-@dataclass
-class CubatureRule:
-    weights_and_integration_points: WeightsAndIntegrationPoints
-    degree_of_exactness: int
-    name: str
+    import CubatureRule, CubatureRuleEnum, WeightsAndIntegrationPoints
 
 
 def get_rule(rule: CubatureRuleEnum) -> CubatureRule:
