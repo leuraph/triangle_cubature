@@ -32,7 +32,7 @@ class TestCubatureRules(unittest.TestCase):
                 triangle_cubature.integrate.integrate_on_triangle(
                     f=random_linear_polynomial.eval_at,
                     triangle=random_triangle,
-                    rule=midpoint_rule.weights_and_integration_points)
+                    weights_and_integration_points=midpoint_rule.weights_and_integration_points)
             expected_result = polynomials.integrate_on_triangle(
                 polynomial=random_linear_polynomial,
                 vertices=random_triangle)
@@ -74,7 +74,7 @@ class TestCubatureRules(unittest.TestCase):
             f=random_linear_polynomial.eval_at,
             coordinates=coordinates,
             elements=elements,
-            rule=midpoint_rule.weights_and_integration_points)
+            weights_and_integration_points=midpoint_rule.weights_and_integration_points)
         self.assertAlmostEqual(expected_result, calculated_result)
 
     def test_lauffer(self):
@@ -100,7 +100,7 @@ class TestCubatureRules(unittest.TestCase):
                 triangle_cubature.integrate.integrate_on_triangle(
                     f=random_linear_polynomial.eval_at,
                     triangle=random_triangle,
-                    rule=lauffer_rule.weights_and_integration_points)
+                    weights_and_integration_points=lauffer_rule.weights_and_integration_points)
             expected_result = polynomials.integrate_on_triangle(
                 polynomial=random_linear_polynomial,
                 vertices=random_triangle)
@@ -142,7 +142,7 @@ class TestCubatureRules(unittest.TestCase):
             f=random_linear_polynomial.eval_at,
             coordinates=coordinates,
             elements=elements,
-            rule=lauffer_rule.weights_and_integration_points)
+            weights_and_integration_points=lauffer_rule.weights_and_integration_points)
         self.assertAlmostEqual(expected_result, calculated_result)
 
 
