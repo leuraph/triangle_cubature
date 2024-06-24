@@ -5,7 +5,7 @@ from dev_tools import utils
 from dev_tools import polynomials
 
 
-class TestMidpoint(unittest.TestCase):
+class TestCubatureRules(unittest.TestCase):
     def test_midpoint(self):
         # -----
         # setup
