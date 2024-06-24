@@ -34,10 +34,11 @@ def get_rule(rule: CubatureRuleEnum) -> WeightsAndIntegrationPoints:
       https://doi.org/10.1137/1015023. p. 306-315
     """
     if rule == CubatureRuleEnum.MIDPOINT:
+        weights = np.array([1./2.])
+        integration_points = np.array([1./3., 1./3.]).reshape(1, 2)
         return WeightsAndIntegrationPoints(
-            weights=np.array([1./2.]),
-            integration_points=np.array([1./3., 1./3.]).reshape(1, 2)
-        )
+            weights=weights,
+            integration_points=integration_points)
     if rule == CubatureRuleEnum.LAUFFER:
         integration_points = np.array([
             [0., 0.],
