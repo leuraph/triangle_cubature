@@ -17,7 +17,7 @@ class CubatureRule:
     name: str
 
 
-def get_rule(rule: CubatureRuleEnum) -> WeightsAndIntegrationPoints:
+def get_rule(rule: CubatureRuleEnum) -> CubatureRule:
     """
     given a cubature rule, returns the corresponding
     weight(s) and integration point(s)
@@ -36,11 +36,17 @@ def get_rule(rule: CubatureRuleEnum) -> WeightsAndIntegrationPoints:
     if rule == CubatureRuleEnum.MIDPOINT:
         weights = np.array([1./2.])
         integration_points = np.array([1./3., 1./3.]).reshape(1, 2)
-        name = 'midpoint'
-        degree_of_exactness = 1
-        return WeightsAndIntegrationPoints(
+        weights_and_integration_points = WeightsAndIntegrationPoints(
             weights=weights,
             integration_points=integration_points)
+        name = 'midpoint'
+        degree_of_exactness = 1
+
+        return CubatureRule(
+            weights_and_integration_points=weights_and_integration_points,
+            degree_of_exactness=degree_of_exactness,
+            name=name)
+
     if rule == CubatureRuleEnum.LAUFFER:
         integration_points = np.array([
             [0., 0.],
@@ -52,9 +58,15 @@ def get_rule(rule: CubatureRuleEnum) -> WeightsAndIntegrationPoints:
             1/3 * 0.5,
             1/3 * 0.5
         ])
+        weights_and_integration_points = WeightsAndIntegrationPoints(
+            weights=weights,
+            integration_points=integration_points)
         name = 'lauffer'
         degree_of_exactness = 1
-        return WeightsAndIntegrationPoints(
-            integration_points=integration_points,
-            weights=weights)
+
+        return CubatureRule(
+            weights_and_integration_points=weights_and_integration_points,
+            degree_of_exactness=degree_of_exactness,
+            name=name)
+
     raise ValueError('specified rule does not exist.')
