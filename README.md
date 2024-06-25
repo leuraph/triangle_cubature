@@ -9,6 +9,69 @@ $$
 where $K \subset \mathbb{R}^2$ is a triangle.
 All cubature rules are based on [1].
 
+## Usage
+Using the cubature schemes is fairly simple.
+
+```python
+from triangle_cubature.cubature_rule import CubatureRuleEnum
+from triangle_cubature.integrate import integrate_on_mesh
+from triangle_cubature.integrate import integrate_on_triangle
+import numpy as np
+
+# specifying the mesh
+coordinates = np.array([
+  [0., 0.],
+  [1., 0.],
+  [1., 1.],
+  [0., 1.]
+])
+
+elements = np.array([
+  [0, 1, 2],
+  [0, 2, 3]
+], dtype=int)
+
+
+# defining the function to be integrated
+# NOTE the function must be able to handle coordinates as array
+# of shape (N, 2)
+def constant(coordinates: np.ndarray):
+    """returns 1"""
+    return np.ones(coordinates.shape[0])
+
+
+# integrating over the whole mesh
+integral_on_mesh = integrate_on_mesh(
+    f=constant,
+    coordinates=coordinates,
+    elements=elements,
+    cubature_rule=CubatureRuleEnum.MIDPOINT)
+
+# integrating over a single triangle, e.g.
+# in this case, the "first" element of the mesh
+integral_on_triangle = integrate_on_triangle(
+    f=constant,
+    triangle=coordinates[elements[0], :],
+    cubature_rule=CubatureRuleEnum.MIDPOINT)
+
+print(f'Integral value on mesh: {integral_on_mesh}')
+print(f'Integral value on triangle: {integral_on_triangle}')
+
+```
+
+## Available Rules
+The available cubature rules can be found in `triangle_cubature/cubature_rule.py`.
+
+- `CubatureRuleEnum.MIDPOINT`
+  - degree of exactness: 1
+  - Ref: [1]
+- `CubatureRuleEnum.LAUFFER_LINEAR`
+  - degree of exactness: 1
+  - Ref: [1]
+- `CubatureRuleEnum.SMPLX1`
+  - degree of exactness: 2
+  - Ref: [1]
+
 ## (Unit) Tests
 To run auto tests, you do
 ```sh
