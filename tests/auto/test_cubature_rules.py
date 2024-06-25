@@ -51,10 +51,9 @@ class TestCubatureRules(unittest.TestCase):
         # -----
         np.random.seed(42)
 
-        for cubature_rule in [get_rule(rule) for rule in self.rules_to_test]:
-            waip = cubature_rule.weights_and_integration_points
-            name = cubature_rule.name
-            degree_of_exactness = cubature_rule.degree_of_exactness
+        for cubature_rule in self.rules_to_test:
+            name = get_rule(cubature_rule).name
+            degree_of_exactness = get_rule(cubature_rule).degree_of_exactness
             # test on single triangle
             print(
                 f'unit testing {name}-cubature'
@@ -68,7 +67,7 @@ class TestCubatureRules(unittest.TestCase):
                     triangle_cubature.integrate.integrate_on_triangle(
                         f=random_polynomial.eval_at,
                         triangle=random_triangle,
-                        weights_and_integration_points=waip)
+                        cubature_rule=cubature_rule)
                 expected_result = polynomials.integrate_on_triangle(
                     polynomial=random_polynomial,
                     vertices=random_triangle)
@@ -91,7 +90,7 @@ class TestCubatureRules(unittest.TestCase):
                 f=random_polynomial.eval_at,
                 coordinates=coordinates,
                 elements=elements,
-                weights_and_integration_points=waip)
+                cubature_rule=cubature_rule)
             self.assertAlmostEqual(expected_result, calculated_result)
 
     def tearDown(self):
