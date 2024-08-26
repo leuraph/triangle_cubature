@@ -74,6 +74,27 @@ def integrate_on_mesh(
       handle inputs of shape (N, 2), i.e.
       coordinates as array
     """
+
+    # fully vectorized midpoint integration, based on the following paper:
+    # --------------------------------------------------------------------
+    # Funken, Stefan, Dirk Praetorius, and Philipp Wissgott.
+    # Efficient Implementation of Adaptive P1-FEM in Matlab.
+    # Computational Methods in Applied Mathematics 11,
+    # no. 4 (1 January 2011): 460–90. https://doi.org/10.2478/cmam-2011-0026.
+    if cubature_rule == CubatureRuleEnum.MIDPOINT:
+        c1 = coordinates[elements[:, 0]]
+        d21 = coordinates[elements[:, 1]] - c1
+        d31 = coordinates[elements[:, 2]] - c1
+
+        # vector of element areas 4*|T|
+        areas = 0.5 * (d21[:, 0]*d31[:, 1] - d21[:, 1] * d31[:, 0])
+
+        midpoints = c1 + (d21 + d31)/3.
+
+        f_on_midpoints = f(midpoints)
+
+        return np.dot(areas, f_on_midpoints)
+
     sum = 0.
     for triangle in elements:
         sum += integrate_on_triangle(
