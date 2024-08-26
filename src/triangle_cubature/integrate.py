@@ -95,6 +95,25 @@ def integrate_on_mesh(
 
         return np.dot(areas, f_on_midpoints)
 
+    c1 = coordinates[elements[:, 0]]
+    d21 = coordinates[elements[:, 1]] - c1
+    d31 = coordinates[elements[:, 2]] - c1
+
+    # vector of element areas 2*|T|
+    areas_2 = (d21[:, 0]*d31[:, 1] - d21[:, 1] * d31[:, 0])
+
+    waip = get_rule(rule=cubature_rule).weights_and_integration_points
+    weights = waip.weights
+    integration_points = waip.integration_points
+
+    sum = 0.
+    for weight, integration_point in zip(weights, integration_points):
+        x_hat, y_hat = integration_point
+        transformed_integration_points = c1 + x_hat * d21 + y_hat * d31
+        f_on_integration_points = f(transformed_integration_points)
+        sum += weight * np.dot(f_on_integration_points, areas_2)
+    return sum
+
     sum = 0.
     for triangle in elements:
         sum += integrate_on_triangle(
