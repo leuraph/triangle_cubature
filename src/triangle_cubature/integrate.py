@@ -75,7 +75,7 @@ def integrate_on_mesh(
       coordinates as array
     """
 
-    # fully vectorized midpoint integration,
+    # fully vectorized integration,
     # based on ideas found in the following paper:
     # --------------------------------------------------------------------
     # Funken, Stefan, Dirk Praetorius, and Philipp Wissgott.
