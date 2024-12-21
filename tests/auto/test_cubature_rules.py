@@ -20,7 +20,8 @@ class TestCubatureRules(unittest.TestCase):
         self.rules_to_test: list[CubatureRuleEnum] = [
             triangle_cubature.rule_factory.CubatureRuleEnum.MIDPOINT,
             triangle_cubature.rule_factory.CubatureRuleEnum.LAUFFER_LINEAR,
-            triangle_cubature.rule_factory.CubatureRuleEnum.SMPLX1
+            triangle_cubature.rule_factory.CubatureRuleEnum.SMPLX1,
+            triangle_cubature.rule_factory.CubatureRuleEnum.DAYTAYLOR
         ]
 
         # reading and refining a mesh (same for all tests)

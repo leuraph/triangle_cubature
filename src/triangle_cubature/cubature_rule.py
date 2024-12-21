@@ -14,6 +14,7 @@ class CubatureRuleEnum(Enum):
     MIDPOINT = 1
     LAUFFER_LINEAR = 2
     SMPLX1 = 3
+    DAYTAYLOR = 4
 
 
 @dataclass
