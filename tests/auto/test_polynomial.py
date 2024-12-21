@@ -4,6 +4,7 @@ from dev_tools.polynomials import integrate_on_triangle
 from dev_tools.polynomials import get_random_polynomial
 from dev_tools.utils import generate_random_triangle
 import numpy as np
+from tqdm import tqdm
 
 
 class TestPolynomial(unittest.TestCase):
@@ -104,10 +105,14 @@ class TestPolynomial(unittest.TestCase):
             random_triangle = generate_random_triangle()
             area = 0.5*np.linalg.det(np.column_stack([random_triangle, np.ones(3)]))
 
-            calculated_area = integrate_on_triangle(
-                polynomial=p_id, vertices=random_triangle)
-
-            self.assertAlmostEqual(area, calculated_area)
+            # using sympy
+            calculated_area_sympy = integrate_on_triangle(
+                polynomial=p_id, vertices=random_triangle, using_sympy=True)
+            self.assertAlmostEqual(area, calculated_area_sympy)
+            # without sympy
+            calculated_area_by_hand = integrate_on_triangle(
+                polynomial=p_id, vertices=random_triangle, using_sympy=False)
+            self.assertAlmostEqual(area, calculated_area_by_hand)
 
             # sanity-check: integrating linear
             # --------------------------------
@@ -121,9 +126,40 @@ class TestPolynomial(unittest.TestCase):
                 coordinates=midpoint)[0]
 
             expected_result = area * value_at_midpoint
-            calculated_result = integrate_on_triangle(
-                polynomial=random_linear_polynomial, vertices=random_triangle)
-            self.assertAlmostEqual(expected_result, calculated_result)
+
+            # using sympy
+            calculated_result_sympy = integrate_on_triangle(
+                polynomial=random_linear_polynomial, vertices=random_triangle,
+                using_sympy=True)
+            self.assertAlmostEqual(expected_result, calculated_result_sympy)
+            # without sympy
+            calculated_result_by_hand = integrate_on_triangle(
+                polynomial=random_linear_polynomial, vertices=random_triangle,
+                using_sympy=False)
+            self.assertAlmostEqual(expected_result, calculated_result_by_hand)
+
+        # sanity-check: integration with / without sympy must yield same result
+        # ---------------------------------------------------------------------
+
+        n_random_triangles = 5
+        max_degree = 3
+
+        print(
+            f'Integrating Polynomial of degree {max_degree} '
+            f'over {n_random_triangles} random triangles...')
+        for _ in tqdm(range(n_random_triangles)):
+            random_polynomial = get_random_polynomial(degree=max_degree)
+            random_triangle = generate_random_triangle()
+
+            integral_sympy = integrate_on_triangle(
+                polynomial=random_polynomial, vertices=random_triangle,
+                using_sympy=True)
+            integral_by_hand = integrate_on_triangle(
+                polynomial=random_polynomial, vertices=random_triangle,
+                using_sympy=False)
+
+            self.assertAlmostEqual(integral_by_hand, integral_sympy)
+
 
 if __name__ == '__main__':
     unittest.main()
