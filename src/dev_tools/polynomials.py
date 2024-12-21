@@ -162,7 +162,7 @@ def integrate_on_triangle_by_hand(
     det_dPhi = np.linalg.det(dPhi)
 
     result_by_hand = 0.
-    for monomial in tqdm(polynomial.monomials):
+    for monomial in polynomial.monomials:
         x_exponent = monomial.x_exponent
         y_exponent = monomial.y_exponent
         coefficient = monomial.coefficient
