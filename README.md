@@ -71,6 +71,10 @@ The available cubature rules can be found in `triangle_cubature/cubature_rule.py
 - `CubatureRuleEnum.SMPLX1`
   - degree of exactness: 2
   - Ref: [1]
+- `CubatureRuleEnum.DAYTAYLOR`
+  - degree of exactness: 6
+  - Ref: [2]
+
 
 ## (Unit) Tests
 To run auto tests, you do
@@ -89,3 +93,6 @@ python -m unittest discover tests/auto/
     'Approximate Calculation of Multiple Integrals (A. H. Stroud)'.
     SIAM Review 15, no. 1 (January 1973): 234-35.
     https://doi.org/10.1137/1015023. p. 306-315
+- [2] D.M. Day and M.A. Taylor 
+    'A new 11 point degree 6 formula for the triangle',
+    PAMM Proc. Appl. Math. Mech. 7 1022501-1022502 (2007).
