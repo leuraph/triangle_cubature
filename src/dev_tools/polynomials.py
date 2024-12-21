@@ -2,6 +2,23 @@ import numpy as np
 from p1afempy.data_structures import CoordinatesType, ElementsType
 import sympy
 from tqdm import tqdm
+from math import factorial, comb
+
+
+def multinomial_coefficient(*args):
+    """
+    Provided k_1, ..., k_m,
+    returns the multinomial coefficient, i.e.
+    n! / (k_1! * ... * k_m!),
+    where n = k_1 + ... + k_m.
+
+    Source: https://en.wikipedia.org/wiki/Multinomial_theorem
+    """
+    n = sum(args)
+    result = factorial(n)
+    for k in args:
+        result /= factorial(k)
+    return result
 
 
 class Monomial():
@@ -58,7 +75,7 @@ def get_random_polynomial(degree: int, max_coeff: float = 1.) -> Polynomial:
     return Polynomial(monomials=monomials)
 
 
-def integrate_on_triangle(
+def integrate_on_triangle_using_sympy(
         polynomial: Polynomial,
         vertices: np.ndarray) -> float:
     """
@@ -119,14 +136,98 @@ def integrate_on_triangle(
     return float(numerical_result)
 
 
+def integrate_on_triangle_by_hand(
+        polynomial: Polynomial,
+        vertices: np.ndarray) -> float:
+    """
+    integrates the polynomial on the specified triangle by hand
+
+    polynomial: Polynomial
+        the polynomial to be integrated
+    vertices: np.ndarray
+        the vertices of the triangle in counter-clockwise order
+    """
+    r1 = vertices[0, :]
+    r2 = vertices[1, :]
+    r3 = vertices[2, :]
+
+    r1x, r1y = r1[0], r1[1]
+    r2x, r2y = r2[0], r2[1]
+    r3x, r3y = r3[0], r3[1]
+
+    d2 = r2 - r1
+    d3 = r3 - r1
+
+    dPhi = np.column_stack([d2, d3])
+    det_dPhi = np.linalg.det(dPhi)
+
+    result_by_hand = 0.
+    for monomial in tqdm(polynomial.monomials):
+        x_exponent = monomial.x_exponent
+        y_exponent = monomial.y_exponent
+        coefficient = monomial.coefficient
+
+        integral_monomial_triangle = 0
+        for m1 in range(x_exponent + 1):
+            for m2 in range(x_exponent - m1 + 1):
+                m3 = x_exponent - m1 - m2
+                for n1 in range(y_exponent + 1):
+                    for n2 in range(y_exponent - n1 + 1):
+                        n3 = y_exponent - n1 - n2
+
+                        C = (
+                            multinomial_coefficient(m1, m2, m3) *
+                            multinomial_coefficient(n1, n2, n3) *
+                            r1x**m1 * r1y**n1 *
+                            (r2x - r1x)**m2 * (r2y - r1y)**n2 *
+                            (r3x - r1x)**m3 * (r3y - r1y)**n3)
+
+                        a = m2 + n2
+                        b = m3 + n3
+
+                        integral_monomial_ref_triangle = 0.
+                        for k in range(b + 2):
+                            integral_monomial_ref_triangle += (
+                                comb(b+1, k) * (-1.)**k * (1. / (a + k + 1)))
+                        integral_monomial_ref_triangle *= (1./(b+1))
+
+                        integral_monomial_triangle += (
+                            C * integral_monomial_ref_triangle)
+        result_by_hand += coefficient * integral_monomial_triangle
+    result_by_hand *= det_dPhi
+
+    return result_by_hand
+
+
+def integrate_on_triangle(
+        polynomial: Polynomial,
+        vertices: np.ndarray,
+        using_sympy: bool = True) -> float:
+    """
+    integrates the polynomial on the specified triangle
+
+    polynomial: Polynomial
+        the polynomial to be integrated
+    vertices: np.ndarray
+        the vertices of the triangle in counter-clockwise order
+    """
+    if using_sympy:
+        return integrate_on_triangle_using_sympy(
+            polynomial=polynomial, vertices=vertices)
+    return integrate_on_triangle_by_hand(
+        polynomial=polynomial, vertices=vertices)
+
+
 def integrate_on_mesh(
         polynomial: Polynomial,
         elements: ElementsType,
         vertices: CoordinatesType,
-        display_progress: bool = False) -> float:
+        display_progress: bool = False,
+        using_sympy: bool = True) -> float:
     sum = 0.
     for element in tqdm(elements, disable=not display_progress):
         sum += integrate_on_triangle(
             polynomial=polynomial,
-            vertices=vertices[element, :])
+            vertices=vertices[element, :],
+            using_sympy=using_sympy)
     return sum
