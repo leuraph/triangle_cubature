@@ -146,7 +146,7 @@ class TestPolynomial(unittest.TestCase):
 
         print(
             f'Integrating Polynomial of degree {max_degree} '
-            f'over {n_random_triangles} random triangles...')
+            f'over {n_random_triangles} random triangles using sympy...')
         for _ in tqdm(range(n_random_triangles)):
             random_polynomial = get_random_polynomial(degree=max_degree)
             random_triangle = generate_random_triangle()
