@@ -70,7 +70,8 @@ class TestCubatureRules(unittest.TestCase):
                         cubature_rule=cubature_rule)
                 expected_result = polynomials.integrate_on_triangle(
                     polynomial=random_polynomial,
-                    vertices=random_triangle)
+                    vertices=random_triangle,
+                    using_sympy=False)
                 self.assertAlmostEqual(calculated_result, expected_result)
 
             # test on mesh
@@ -85,7 +86,8 @@ class TestCubatureRules(unittest.TestCase):
                 polynomial=random_polynomial,
                 elements=elements,
                 vertices=coordinates,
-                display_progress=True)
+                display_progress=True,
+                using_sympy=False)
             calculated_result = triangle_cubature.integrate.integrate_on_mesh(
                 f=random_polynomial.eval_at,
                 coordinates=coordinates,
