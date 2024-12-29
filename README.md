@@ -7,7 +7,6 @@ $$
 $$
 
 where $K \subset \mathbb{R}^2$ is a triangle.
-All cubature rules are based on [1].
 
 ## Usage
 Using the cubature schemes is fairly simple.
