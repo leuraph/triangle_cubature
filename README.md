@@ -3,10 +3,10 @@ This repo serves as a collection of well-tested triangle cubature rules,
 i.e. numerical integration schemes for integrals of the form
 
 $$
-\int_K f(x, y) ~\mathrm{d}x ~\mathrm{d}y,
+\sum_K \int_K f(x, y) ~\mathrm{d}x ~\mathrm{d}y,
 $$
 
-where $K \subset \mathbb{R}^2$ is a triangle.
+where each $K \subset \mathbb{R}^2$ is a triangle.
 
 ## Usage
 Using the cubature schemes is fairly simple.
